@@ -19,7 +19,7 @@ contract CrowdFunding {//like a class
     uint256 public numberOfCampaigns = 0;
 
     function createCampaign(address _owner, string memory _title, string memory _description, uint256 _target, uint256 _deadline, string memory _image) public returns (uint256) {
-        Campaign storage campaign = campaigns[numberOfCampaigns];
+        Campaign storage campaign = campaigns[numberOfCampaigns];//memory keyword to store the data temporarily during the execution of a smart contract. 
 
         require(campaign.deadline < block.timestamp, "The deadline should be a date in the future.");
 
@@ -36,7 +36,7 @@ contract CrowdFunding {//like a class
         return numberOfCampaigns - 1;
     }
 
-    function donateToCampaign(uint256 _id) public payable {
+    function donateToCampaign(uint256 _id) public payable {//ensures that the owner address can handle Ether transactions
         uint256 amount = msg.value;
 
         Campaign storage campaign = campaigns[_id];
