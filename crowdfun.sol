@@ -36,7 +36,7 @@ contract CrowdFunding {//like a class
         return numberOfCampaigns - 1;
     }
 
-    function donateToCampaign(uint256 _id) public payable {//ensures that the owner address can handle Ether transactions
+    function donateToCampaign(uint256 _id) public payable {//payble ensures that the owner address can handle Ether transactions
         uint256 amount = msg.value;
 
         Campaign storage campaign = campaigns[_id];
@@ -44,10 +44,10 @@ contract CrowdFunding {//like a class
         campaign.donators.push(msg.sender);
         campaign.donations.push(amount);
 
-        (bool sent,) = payable(campaign.owner).call{value: amount}("");
+        (bool sent,) = payable(campaign.owner).call{value: amount}("");// transfer donated amount to the owner
 
         if(sent) {
-            campaign.amountCollected = campaign.amountCollected + amount;
+            campaign.amountCollected = campaign.amountCollected + amount;//if transfer was successdul update the amoutn
         }
     }
 
@@ -58,6 +58,7 @@ contract CrowdFunding {//like a class
     function getCampaigns() public view returns (Campaign[] memory) {
         Campaign[] memory allCampaigns = new Campaign[](numberOfCampaigns);
 
+//populate array with campaign data
         for(uint i = 0; i < numberOfCampaigns; i++) {
             Campaign storage item = campaigns[i];
 
